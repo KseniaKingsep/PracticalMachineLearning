@@ -47,7 +47,7 @@ myValidation <- myTraining[-inTrain,]
 
 ####Model 1 - RandomForest  
 We use cross validation (`method = "cv"`) for resampling during modeling, and `number` parameter sets the number of subsamples to take. 
-``` {r, eval = FALSE, cache=TRUE}
+``` {r, results = "hide", cache=TRUE}
 set.seed(999)
 rfControl <- trainControl(method="cv", number=3, verboseIter=FALSE)
 rfModel <- train(classe ~ ., data=myTraining, method="rf", trControl = rfControl)
@@ -61,7 +61,7 @@ confusionMatrix(predictionValidation, myValidation$classe)$table
 Confusion matrix shows accuracy, sensitivity and specificity to be exactly 1. So this prediction model is showing really great results. 
 
 ####Model 2 - Boosting  
-``` {r, eval = FALSE, cache=TRUE}
+``` {r, results = "hide", cache=TRUE}
 set.seed(777)
 boostControl <- trainControl(method="cv", number=3, verboseIter=FALSE)
 boostModel <- train(classe ~ ., data=myTraining, method="gbm", trControl = boostControl)
