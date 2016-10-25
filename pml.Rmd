@@ -50,21 +50,21 @@ rfModel <- train(classe ~ ., data=myTraining, method="rf", trControl = rfControl
 predictionValidation <- predict(rfModel, myValidation)
 ```
 To evaluate the model we use the confusionMatrix method. We will focus on accuracy, sensitivity and specificity metrics. 
-```{r}
+```{r, results="markup"}
 confusionMatrix(predictionValidation, myValidation$classe)$overall["Accuracy"]
 confusionMatrix(predictionValidation, myValidation$classe)$table
 ```
 Confusion matrix shows accuracy, sensitivity and specificity to be exactly 1. So this prediction model is showing really great results. 
 
 ####Model 2 - Boosting
-```{r, results="hide", message=FALSE, cache = TRUE}
+```{r, results="hide", message=FALSE, cache=TRUE}
 set.seed(777)
 boostControl <- trainControl(method="cv", number=3, verboseIter=FALSE)
 boostModel <- train(classe ~ ., data=myTraining, method="gbm", trControl = boostControl)
 predictionValidation2 <- predict(boostModel, myValidation)
 ```
 To evaluate the model we use the confusionMatrix method. We will focus on accuracy, sensitivity and specificity metrics. 
-```{r}
+```{r, results="markup"}
 confusionMatrix(predictionValidation2, myValidation$classe)$overall["Accuracy"]
 confusionMatrix(predictionValidation2, myValidation$classe)$table
 ```
@@ -72,7 +72,7 @@ Boosting shows Accuracy of 0.9746, which is quite good, but still less than `rf`
 
 ##Prediction on testing data
 We use randomFprest model as the most accurate to predict classe for the testing data.
-```{r}
+```{r, results="markup"}
 predict(rfModel, testing)
 ```
 This answers show to be 100% correct on the Quiz. 
