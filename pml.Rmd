@@ -9,7 +9,7 @@ More information is available from the website here: http://groupware.les.inf.pu
 
 ##Data Processing
 We prepare workspace (load packages), download and read in the datasets.
-```{r, cache=TRUE, results = "hide"}
+```{r, results="hide", message=FALSE}
 # Load packages
 library(caret)
 library(randomForest)
@@ -26,13 +26,13 @@ training <- read.table("./data/pml-training.csv", sep = ",", header = TRUE, na.s
 testing <- read.table("./data/pml-testing.csv", sep = ",", header = TRUE, na.strings = c("NA", ""))
 ```
 Preprocess data a bit: remove near zero variance variables, row numbers, names and timestamps, variables with NAs. 
-```{r, cache=TRUE}
+```{r}
 myTraining <- training[,-nearZeroVar(training)]
 myTraining <- myTraining[,-c(1,2,3,4,5,6,7)]
 myTraining <- myTraining[, colSums(is.na(myTraining)) == 0]
 ```
 Create validation and training sets:
-```{r, cache=TRUE}
+```{r }
 set.seed(11114)
 inTrain <- createDataPartition(y=training$classe, p=0.7, list=FALSE)
 myTraining <- myTraining[inTrain,]
@@ -43,28 +43,28 @@ myValidation <- myTraining[-inTrain,]
 
 ####Model 1 - RandomForest  
 We use cross validation (`method = "cv"`) for resampling during modeling, and `number` parameter sets the number of subsamples to take. 
-``` {r, results = "hide", cache=TRUE}
+``` {r, cache = TRUE}
 set.seed(999)
 rfControl <- trainControl(method="cv", number=3, verboseIter=FALSE)
 rfModel <- train(classe ~ ., data=myTraining, method="rf", trControl = rfControl)
 predictionValidation <- predict(rfModel, myValidation)
 ```
 To evaluate the model we use the confusionMatrix method. We will focus on accuracy, sensitivity and specificity metrics. 
-```{r, cache=TRUE}
+```{r}
 confusionMatrix(predictionValidation, myValidation$classe)$overall["Accuracy"]
 confusionMatrix(predictionValidation, myValidation$classe)$table
 ```
 Confusion matrix shows accuracy, sensitivity and specificity to be exactly 1. So this prediction model is showing really great results. 
 
-####Model 2 - Boosting  
-``` {r, results = "hide", cache=TRUE}
+####Model 2 - Boosting
+```{r, results="hide", message=FALSE, cache = TRUE}
 set.seed(777)
 boostControl <- trainControl(method="cv", number=3, verboseIter=FALSE)
 boostModel <- train(classe ~ ., data=myTraining, method="gbm", trControl = boostControl)
 predictionValidation2 <- predict(boostModel, myValidation)
 ```
 To evaluate the model we use the confusionMatrix method. We will focus on accuracy, sensitivity and specificity metrics. 
-```{r, cache=TRUE}
+```{r}
 confusionMatrix(predictionValidation2, myValidation$classe)$overall["Accuracy"]
 confusionMatrix(predictionValidation2, myValidation$classe)$table
 ```
@@ -72,11 +72,11 @@ Boosting shows Accuracy of 0.9746, which is quite good, but still less than `rf`
 
 ##Prediction on testing data
 We use randomFprest model as the most accurate to predict classe for the testing data.
-```{r, cache=TRUE}
+```{r}
 predict(rfModel, testing)
 ```
 This answers show to be 100% correct on the Quiz. 
 
-#Conclusion  
+#Conclusion 
 
 Random forest model appears to be best fitting for these data. Boosting shows less accuracy on the validation set and also on testing sample.
