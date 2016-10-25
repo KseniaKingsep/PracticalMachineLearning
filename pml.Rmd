@@ -1,8 +1,4 @@
----
-author: "Ksenia K."
-date: '22 окт€бр€ 2016 г '
-output: html_document
----
+
 #Prediction Assignment Writeup - Excersise Manner Modeling
 
 ##Introduction  
@@ -13,7 +9,7 @@ More information is available from the website here: http://groupware.les.inf.pu
 
 ##Data Processing
 We prepare workspace (load packages), download and read in the datasets.
-```{r, cache=TRUE, eval = FALSE}
+```{r, cache=TRUE, results = "hide"}
 # Load packages
 library(caret)
 library(randomForest)
