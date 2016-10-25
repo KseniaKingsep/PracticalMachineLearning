@@ -198,7 +198,8 @@ predictionValidation2 &lt;- predict(boostModel, myValidation)</code></pre>
 <div id="prediction-on-testing-data" class="section level2">
 <h2>Prediction on testing data</h2>
 <p>We use randomFprest model as the most accurate to predict classe for the testing data.</p>
-<pre class="r"><code>predict(rfModel, testing)</code></pre>
+<pre class="r"><code>test &lt;- predict(rfModel, testing)
+test</code></pre>
 <pre><code>##  [1] B A B A A E D B A A B C B A E E A B B B
 ## Levels: A B C D E</code></pre>
 <p>This answers show to be 100% correct on the Quiz.</p>

@@ -73,7 +73,8 @@ Boosting shows Accuracy of 0.9746, which is quite good, but still less than `rf`
 ##Prediction on testing data
 We use randomFprest model as the most accurate to predict classe for the testing data.
 ```{r, results="markup"}
-predict(rfModel, testing)
+test <- predict(rfModel, testing)
+test
 ```
 This answers show to be 100% correct on the Quiz. 
 
